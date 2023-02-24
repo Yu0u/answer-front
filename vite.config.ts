@@ -18,6 +18,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       },
       extensions: ['.js', '.json', '.ts', '.vue'], // 使用路径别名时想要省略的后缀名，可以自己 增减
     },
+    build: {
+      target: 'esnext',
+    },
     /* more config */
     plugins: [
       vue({
@@ -25,9 +28,17 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       }),
       AutoImport({
         resolvers: [ElementPlusResolver()],
+        imports: ['vue', 'vue-router'],
+        dts: 'src/type/auto-import.d.ts',
+        eslintrc: {
+          enabled: true,
+          filepath: './.eslintrc-auto-import.json',
+          globalsPropValue: true,
+        },
       }),
       Components({
         resolvers: [ElementPlusResolver()],
+        dts: 'src/type/components.d.ts',
       }),
     ],
     server: {
